@@ -73,6 +73,18 @@ function moveAll(argument) {
   if(ballY < 0){
     ballSpeedY *= -1;
   }
+
+  var ballBrickCol = Math.floor(ballX / BRICK_W);
+  var ballBrickRow = Math.floor(ballY / BRICK_H);
+  var brickIndex = rowColToArrayIndex(ballBrickCol,ballBrickRow)
+
+  if(brickIndex >=0 && brickIndex < BRICK_COLS * BRICK_ROWS){
+    brickGrid[brickIndex] = false;
+  }
+
+
+
+
   var paddleTopEdgeY = canvas.height - PADDLE_EDGE;
   var paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
   var paddleLeftEdgeX = paddleX;
@@ -94,18 +106,16 @@ function drawAll(argument) {
   drawRect(paddleX, canvas.height - PADDLE_EDGE, PADDLE_WIDTH,PADDLE_THICKNESS, 'white');
 
   drawBricks();
-
-  var mouseBrickCol = Math.floor(mouseX / BRICK_W);
-  var mouseBrickRow = Math.floor(mouseY / BRICK_H);
-  drawText(mouseBrickCol+","+mouseBrickRow,mouseX,mouseY,'yellow');
 }
 
 function brickReset() {
   for(var i = 0; i < BRICK_COLS * BRICK_ROWS; i++){
-   if(Math.random() < 0.5){
       brickGrid[i] = true;
-    }
   }
+}
+
+function rowColToArrayIndex(col,row) {
+  return BRICK_COLS * row + col
 }
 
 function drawBricks() {
@@ -113,7 +123,7 @@ function drawBricks() {
   for(var eachRow=0;eachRow < BRICK_ROWS; eachRow++){
     for(var eachCol = 0; eachCol < BRICK_COLS; eachCol++){
 
-      var arrayIndex = BRICK_COLS * eachRow + eachCol;
+      var arrayIndex = rowColToArrayIndex(eachCol,eachRow);
 
       if(brickGrid[arrayIndex]){
         drawRect(BRICK_W*eachCol,BRICK_H*eachRow, BRICK_W-BRICK_GAP,BRICK_H-BRICK_GAP,'blue');
