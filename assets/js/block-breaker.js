@@ -68,7 +68,7 @@ function paddleCollision(argument) {
   var paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
 
   if(ballY > paddleTopEdgeY && ballY < paddleBottomEdgeY &&
-     ballY > paddleLeftEdgeX && ballX < paddleRightEdgeX){
+     ballX > paddleLeftEdgeX && ballX < paddleRightEdgeX){
        ballSpeedY *= -1;
 
        var centerOFPaddleX = paddleX+ PADDLE_WIDTH/2;
