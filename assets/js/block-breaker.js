@@ -56,6 +56,41 @@ function ballReset() {
 }
 
 function moveAll(argument) {
+  ballMove();
+  brickCollision();
+  paddleCollision();
+}
+
+function paddleCollision(argument) {
+  var paddleTopEdgeY = canvas.height - PADDLE_EDGE;
+  var paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
+  var paddleLeftEdgeX = paddleX;
+  var paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
+
+  if(ballY > paddleTopEdgeY && ballY < paddleBottomEdgeY &&
+     ballY > paddleLeftEdgeX && ballX < paddleRightEdgeX){
+       ballSpeedY *= -1;
+
+       var centerOFPaddleX = paddleX+ PADDLE_WIDTH/2;
+       var ballDistX = ballX - centerOFPaddleX;
+       ballSpeedX = ballDistX * 0.35;
+  }
+}
+function brickCollision(argument) {
+  var ballBrickCol = Math.floor(ballX / BRICK_W);
+  var ballBrickRow = Math.floor(ballY / BRICK_H);
+  var brickIndex = rowColToArrayIndex(ballBrickCol,ballBrickRow)
+
+  if(ballBrickCol >=0 && ballBrickCol < BRICK_COLS &&
+     ballBrickRow >=0 && ballBrickRow < BRICK_ROWS){
+       if(brickGrid[brickIndex]){
+         brickGrid[brickIndex] = false;
+         ballSpeedY *= -1;
+       }
+  }
+}
+
+function ballMove(argument) {
   ballX += ballSpeedX;
   ballY += ballSpeedY;
 
@@ -73,33 +108,6 @@ function moveAll(argument) {
   if(ballY < 0){
     ballSpeedY *= -1;
   }
-
-  var ballBrickCol = Math.floor(ballX / BRICK_W);
-  var ballBrickRow = Math.floor(ballY / BRICK_H);
-  var brickIndex = rowColToArrayIndex(ballBrickCol,ballBrickRow)
-
-  if(ballBrickCol >=0 && ballBrickCol < BRICK_COLS &&
-     ballBrickRow >=0 && ballBrickRow < BRICK_ROWS){
-       if(brickGrid[brickIndex]){
-         brickGrid[brickIndex] = false;
-         ballSpeedY *= -1;
-       }
-  }
-
-  var paddleTopEdgeY = canvas.height - PADDLE_EDGE;
-  var paddleBottomEdgeY = paddleTopEdgeY + PADDLE_THICKNESS;
-  var paddleLeftEdgeX = paddleX;
-  var paddleRightEdgeX = paddleLeftEdgeX + PADDLE_WIDTH;
-
-  if(ballY > paddleTopEdgeY && ballY < paddleBottomEdgeY &&
-     ballY > paddleLeftEdgeX && ballX < paddleRightEdgeX){
-       ballSpeedY *= -1;
-
-       var centerOFPaddleX = paddleX+ PADDLE_WIDTH/2;
-       var ballDistX = ballX - centerOFPaddleX;
-       ballSpeedX = ballDistX * 0.35;
-  }
-
 }
 function drawAll(argument) {
   drawRect(0,0, canvas.width, canvas.height,'black');
