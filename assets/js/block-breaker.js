@@ -85,7 +85,19 @@ function brickCollision(argument) {
      ballBrickRow >=0 && ballBrickRow < BRICK_ROWS){
        if(brickGrid[brickIndex]){
          brickGrid[brickIndex] = false;
-         ballSpeedY *= -1;
+
+         var prevBallX = ballX - ballSpeedX;
+         var prevBallY = ballY - ballSpeedY;
+         var prevBrivCol = Math.floor(prevBallX/BRICK_W);
+         var prevBrivRow = Math.floor(prevBallX/BRICK_H);
+
+         if(prevBrivCol != ballBrickCol){
+            ballSpeedX *= -1;
+         }
+         if(prevBrivRow != ballBrickRow){
+            ballSpeedY *= -1;
+         }
+
        }
   }
 }
