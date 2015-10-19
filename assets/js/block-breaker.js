@@ -90,11 +90,25 @@ function brickCollision(argument) {
          var prevBallY = ballY - ballSpeedY;
          var prevBrivCol = Math.floor(prevBallX/BRICK_W);
          var prevBrivRow = Math.floor(prevBallX/BRICK_H);
-
+         var bothTestsFailed = true;
          if(prevBrivCol != ballBrickCol){
-            ballSpeedX *= -1;
+            var adjBrickSide = rowColToArrayIndex(prevBrivCol,ballBrickRow);
+
+            if(brickGrid[adjBrickSide] == false){
+              ballSpeedX *= -1;
+              bothTestsFailed = false;
+            }
          }
          if(prevBrivRow != ballBrickRow){
+           var adjBrickTopBottom = rowColToArrayIndex(ballBrickCol,prevBrivRow);
+
+           if(brickGrid[adjBrickTopBottom] == false){
+             ballSpeedY *= -1;
+             bothTestsFailed = false;
+           }
+         }
+         if(bothTestsFailed == true){
+            ballSpeedX *= -1;
             ballSpeedY *= -1;
          }
 
