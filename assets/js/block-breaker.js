@@ -136,6 +136,7 @@ function ballMove(argument) {
   if(ballY > canvas.height){
     //ballSpeedY *= -1;
     ballReset();
+    brickReset();
   }
   if(ballY < 0){
     ballSpeedY *= -1;
