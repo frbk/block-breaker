@@ -144,7 +144,7 @@ function drawAll(argument) {
 }
 
 function brickReset() {
-  for(var i = 0; i < BRICK_COLS * BRICK_ROWS; i++){
+  for(var i = 3 * BRICK_COLS; i < BRICK_COLS * BRICK_ROWS; i++){
       brickGrid[i] = true;
   }
 }
