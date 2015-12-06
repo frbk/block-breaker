@@ -81,6 +81,16 @@ function paddleCollision(argument) {
        }
   }
 }
+function isBrickAtColRow(col,row){
+  if(col >=0 && col < BRICK_COLS &&
+     row >=0 && row < BRICK_ROWS){
+       var brickIndexUnderCoord = rowColToArrayIndex(col,row);
+       return brickGrid[brickIndexUnderCoord];
+     }else{
+       return false;
+     }
+}
+
 function brickCollision(argument) {
   var ballBrickCol = Math.floor(ballX / BRICK_W);
   var ballBrickRow = Math.floor(ballY / BRICK_H);
@@ -88,7 +98,7 @@ function brickCollision(argument) {
 
   if(ballBrickCol >=0 && ballBrickCol < BRICK_COLS &&
      ballBrickRow >=0 && ballBrickRow < BRICK_ROWS){
-       if(brickGrid[brickIndex]){
+       if(isBrickAtColRow(ballBrickCol,ballBrickRow)){
          brickGrid[brickIndex] = false;
          brickLeft--;
 
