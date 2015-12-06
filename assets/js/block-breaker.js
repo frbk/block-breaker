@@ -20,8 +20,8 @@ const BRICK_H = 20;
 const BRICK_COLS = 10;
 const BRICK_ROWS = 14;
 const BRICK_GAP = 2;
-var brickGrid= new Array(BRICK_COLS * BRICK_ROWS);
-
+var brickGrid = new Array(BRICK_COLS * BRICK_ROWS);
+var brickLeft = 0;
 
 window.onload = function() {
   canvas = document.getElementById('gameCanvas');
@@ -32,6 +32,7 @@ window.onload = function() {
   canvas.addEventListener('mousemove',updateMousePos);
 
   brickReset();
+  ballReset();
 }
 function updateMousePos(evt) {
   var rect = canvas.getBoundingClientRect();
@@ -74,6 +75,10 @@ function paddleCollision(argument) {
        var centerOFPaddleX = paddleX+ PADDLE_WIDTH/2;
        var ballDistX = ballX - centerOFPaddleX;
        ballSpeedX = ballDistX * 0.35;
+
+       if(brickLeft == 0){
+         brickReset();
+       }
   }
 }
 function brickCollision(argument) {
@@ -85,6 +90,7 @@ function brickCollision(argument) {
      ballBrickRow >=0 && ballBrickRow < BRICK_ROWS){
        if(brickGrid[brickIndex]){
          brickGrid[brickIndex] = false;
+         brickLeft--;
 
          var prevBallX = ballX - ballSpeedX;
          var prevBallY = ballY - ballSpeedY;
@@ -144,8 +150,10 @@ function drawAll(argument) {
 }
 
 function brickReset() {
+  brickLeft =0;
   for(var i = 3 * BRICK_COLS; i < BRICK_COLS * BRICK_ROWS; i++){
       brickGrid[i] = true;
+      brickLeft++;
   }
 }
 
